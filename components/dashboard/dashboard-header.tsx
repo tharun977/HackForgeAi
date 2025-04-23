@@ -1,11 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { UserButton } from "@clerk/nextjs"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
-import { Bell, Menu, MessageSquare, Plus, Search, X } from "lucide-react"
-import { useState } from "react"
+import { signOut, useSession } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,68 +13,99 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LogOut, Plus, Settings, User } from "lucide-react"
 
 export function DashboardHeader() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const pathname = usePathname()
+  const { data: session, status } = useSession()
+
+  const initials = session?.user?.name
+    ? session.user.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+    : "U"
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-14 items-center px-4 md:px-6">
-        <div className="flex items-center gap-2 md:hidden">
-          <Button variant="ghost" size="icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X /> : <Menu />}
+    <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b bg-background px-4 md:px-6">
+      <div className="flex items-center gap-2 md:gap-4">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="text-xl font-bold">HackForge AI</span>
+        </Link>
+        <nav className="hidden md:flex">
+          <ul className="flex items-center gap-4">
+            <li>
+              <Link
+                href="/dashboard"
+                className={`text-sm font-medium ${
+                  pathname === "/dashboard" ? "text-primary" : "text-muted-foreground"
+                } transition-colors hover:text-primary`}
+              >
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/dashboard/projects"
+                className={`text-sm font-medium ${
+                  pathname.startsWith("/dashboard/projects") ? "text-primary" : "text-muted-foreground"
+                } transition-colors hover:text-primary`}
+              >
+                Projects
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div className="flex items-center gap-2">
+        <Link href="/dashboard/new">
+          <Button size="sm" className="hidden md:flex">
+            <Plus className="mr-2 h-4 w-4" />
+            New Project
           </Button>
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-xl font-bold text-transparent">
-              HackForge AI
-            </span>
-          </Link>
-        </div>
-
-        <div className="hidden md:flex md:items-center md:gap-2">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-xl font-bold text-transparent">
-              HackForge AI
-            </span>
-          </Link>
-        </div>
-
-        <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <Search className="h-5 w-5" />
-          </Button>
+        </Link>
+        <ModeToggle />
+        {status === "authenticated" && session ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="h-5 w-5" />
-                <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500"></span>
+              <Button variant="ghost" size="icon" className="rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={session?.user?.image || ""} alt={session?.user?.name || "User"} />
+                  <AvatarFallback>{initials}</AvatarFallback>
+                </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <span>New comment on your project</span>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/profile" className="flex w-full cursor-pointer items-center">
+                  <User className="mr-2 h-4 w-4" />
+                  Profile
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Your project was deployed successfully</span>
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/settings" className="flex w-full cursor-pointer items-center">
+                  <Settings className="mr-2 h-4 w-4" />
+                  Settings
+                </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>New feature available: AI code review</span>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="flex cursor-pointer items-center text-red-500 focus:text-red-500"
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                Log out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant="ghost" size="icon">
-            <MessageSquare className="h-5 w-5" />
+        ) : (
+          <Button size="sm" asChild>
+            <Link href="/auth/signin">Sign In</Link>
           </Button>
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/dashboard/new">
-              <Plus className="h-5 w-5" />
-            </Link>
-          </Button>
-          <ModeToggle />
-          <UserButton afterSignOutUrl="/" />
-        </div>
+        )}
       </div>
     </header>
   )

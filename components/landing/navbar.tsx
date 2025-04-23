@@ -1,116 +1,120 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
-import { useState } from "react"
-import { usePathname } from "next/navigation"
+import { useSession, signIn } from "next-auth/react"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/mode-toggle"
-import { Menu, X } from "lucide-react"
-import { UserButton, SignInButton, useAuth } from "@clerk/nextjs"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const { isSignedIn } = useAuth()
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const navItems = [
-    { name: "Features", href: "/#features" },
-    { name: "How It Works", href: "/#how-it-works" },
-    { name: "Pricing", href: "/#pricing" },
-  ]
+  const { data: session } = useSession()
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-xl font-bold text-transparent">
-              HackForge AI
-            </span>
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex md:items-center md:gap-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {item.name}
-            </Link>
-          ))}
-        </div>
-
-        <div className="hidden items-center gap-4 md:flex">
+    <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center">
+        <Link href="/" className="flex items-center gap-2">
+          <span className="text-xl font-bold">HackForge AI</span>
+        </Link>
+        <NavigationMenu className="hidden md:flex md:flex-1 md:justify-center">
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href="/#features" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>Features</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/#how-it-works" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>How It Works</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  {resources.map((resource) => (
+                    <ListItem key={resource.title} title={resource.title} href={resource.href}>
+                      {resource.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <div className="flex flex-1 items-center justify-end gap-2">
           <ModeToggle />
-          {isSignedIn ? (
-            <>
-              <Button asChild variant="ghost">
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-              <UserButton afterSignOutUrl="/" />
-            </>
+          {session ? (
+            <Button asChild>
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
           ) : (
             <>
-              <Button asChild variant="ghost">
-                <SignInButton mode="modal">Sign In</SignInButton>
+              <Button variant="ghost" onClick={() => signIn()}>
+                Sign In
               </Button>
               <Button asChild>
-                <SignInButton mode="modal">Get Started</SignInButton>
+                <Link href="/auth/signin">Get Started</Link>
               </Button>
             </>
           )}
         </div>
-
-        {/* Mobile Navigation */}
-        <div className="flex items-center gap-2 md:hidden">
-          <ModeToggle />
-          {isSignedIn && <UserButton afterSignOutUrl="/" />}
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMenu}>
-            {isMenuOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="container border-t border-border/40 px-4 py-4 md:hidden">
-          <div className="flex flex-col space-y-3">
-            {navItems.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
-            {isSignedIn ? (
-              <Button asChild variant="ghost">
-                <Link href="/dashboard" onClick={() => setIsMenuOpen(false)}>
-                  Dashboard
-                </Link>
-              </Button>
-            ) : (
-              <>
-                <Button asChild variant="ghost">
-                  <SignInButton mode="modal">Sign In</SignInButton>
-                </Button>
-                <Button asChild>
-                  <SignInButton mode="modal">Get Started</SignInButton>
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </nav>
+    </div>
   )
 }
+
+const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(
+  ({ className, title, children, ...props }, ref) => {
+    return (
+      <li>
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className,
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    )
+  },
+)
+ListItem.displayName = "ListItem"
+
+const resources = [
+  {
+    title: "Documentation",
+    href: "#",
+    description: "Learn how to use HackForge AI to generate production-ready codebases.",
+  },
+  {
+    title: "API Reference",
+    href: "#",
+    description: "Detailed API documentation for integrating HackForge AI into your workflow.",
+  },
+  {
+    title: "Examples",
+    href: "#",
+    description: "Explore example projects generated with HackForge AI.",
+  },
+  {
+    title: "Community",
+    href: "#",
+    description: "Join our community of developers building with AI.",
+  },
+]

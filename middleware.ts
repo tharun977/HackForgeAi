@@ -1,9 +1,28 @@
-import { withClerkMiddleware } from '@clerk/nextjs';
+import { withAuth } from "next-auth/middleware"
+import { NextResponse } from "next/server"
 
-export default withClerkMiddleware({
-  publicRoutes: ["/", "/api/webhooks(.*)"],
-});
+// This function can be marked `async` if using `await` inside
+export default withAuth(
+  // `withAuth` augments your `Request` with the user's token.
+  function middleware(req) {
+    // Public routes that don't require authentication
+    const publicPaths = ["/", "/auth/signin"]
+    const path = req.nextUrl.pathname
+
+    if (publicPaths.includes(path)) {
+      return NextResponse.next()
+    }
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
+    pages: {
+      signIn: "/auth/signin",
+    },
+  },
+)
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-};
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|.*\\.png$).*)"],
+}

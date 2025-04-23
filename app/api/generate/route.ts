@@ -1,11 +1,12 @@
-import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "../auth/[...nextauth]/route"
 import { type CodeGenerationRequest, simulateCodeGeneration } from "@/lib/ai-service"
 
 export async function POST(req: Request) {
-  const { userId } = auth()
+  const session = await getServerSession(authOptions)
 
-  if (!userId) {
+  if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
