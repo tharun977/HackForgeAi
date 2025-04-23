@@ -1,34 +1,47 @@
-import type React from "react"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "@/components/ui/toaster"
-import { AuthProvider } from "@/components/providers/auth-provider"
+import type { Metadata } from 'next';
+import { Inter, Instrument_Sans } from 'next/font/google';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@/components/analytics';
+import { SessionProvider } from '@/components/session-provider';
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter'
+});
+
+const calSans = Instrument_Sans({
+  subsets: ['latin'],
+  variable: '--font-cal-sans'
+});
 
 export const metadata: Metadata = {
-  title: "HackForge AI | Your AI Hackathon Partner",
-  description: "Generate production-ready codebases from your project ideas",
-    generator: 'v0.dev'
-}
+  title: 'HackForge AI - Transform Ideas Into Code',
+  description: 'Transform natural language project descriptions into complete codebases with AI',
+  keywords: ['code generation', 'AI', 'development', 'programming', 'code', 'generation'],
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-        <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+      <body className={`${inter.variable} ${calSans.variable} font-sans antialiased`}>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+          >
             {children}
+            <Analytics />
             <Toaster />
           </ThemeProvider>
-        </AuthProvider>
+        </SessionProvider>
       </body>
     </html>
-  )
+  );
 }

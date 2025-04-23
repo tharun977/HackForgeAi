@@ -1,27 +1,67 @@
-import { NextResponse } from "next/server"
-import { getServerSession } from "next-auth"
-import { authOptions } from "../auth/[...nextauth]/route"
-import { type CodeGenerationRequest, simulateCodeGeneration } from "@/lib/ai-service"
+import { NextRequest, NextResponse } from 'next/server';
+import prisma from '@/lib/db';
+import { auth } from '@clerk/nextjs';
 
-export async function POST(req: Request) {
-  const session = await getServerSession(authOptions)
-
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
+export async function POST(req: NextRequest) {
   try {
-    const requestData = (await req.json()) as CodeGenerationRequest
-
-    // In production, use the actual AI service
-    // const result = await generateProjectCode(requestData)
-
-    // For development, use the simulation
-    const result = await simulateCodeGeneration(requestData)
-
-    return NextResponse.json(result)
+    const { userId } = auth();
+    
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    
+    const body = await req.json();
+    const { projectName, projectDescription, language, framework } = body;
+    
+    if (!projectName || !projectDescription || !language || !framework) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+    
+    // Check if user exists in our database
+    const user = await prisma.user.findUnique({
+      where: { clerkId: userId },
+    });
+    
+    if (!user) {
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404 }
+      );
+    }
+    
+    // Create project
+    const project = await prisma.project.create({
+      data: {
+        name: projectName,
+        description: projectDescription,
+        prompt: projectDescription,
+        language,
+        framework,
+        status: 'generating',
+        userId: user.id,
+      },
+    });
+    
+    return NextResponse.json({ 
+      success: true,
+      project: {
+        id: project.id,
+        name: project.name,
+        status: project.status,
+      }
+    });
+    
   } catch (error) {
-    console.error("Error generating code:", error)
-    return NextResponse.json({ error: "Failed to generate code" }, { status: 500 })
+    console.error('Error generating project:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
