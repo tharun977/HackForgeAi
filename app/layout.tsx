@@ -6,14 +6,15 @@ import { Analytics } from '@/components/analytics';
 import { SessionProvider } from '@/components/session-provider';
 import './globals.css';
 
-const inter = Inter({ 
+// Load fonts and assign CSS custom properties
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter'
+  variable: '--font-inter',
 });
 
-const calSans = Instrument_Sans({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
-  variable: '--font-cal-sans'
+  variable: '--font-instrument-sans',
 });
 
 export const metadata: Metadata = {
@@ -29,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${calSans.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${instrumentSans.variable} font-sans antialiased`}>
         <SessionProvider>
           <ThemeProvider
             attribute="class"
