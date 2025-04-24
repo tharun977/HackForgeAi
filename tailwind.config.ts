@@ -8,6 +8,7 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
     "*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/magicui/**/*.{js,ts,jsx,tsx}", 
   ],
   prefix: "",
   theme: {
