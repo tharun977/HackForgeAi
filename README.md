@@ -1,6 +1,6 @@
 
 
-# HackForge AI
+# ⚒️ HackForge AI
 
 **Your AI-Powered Hackathon Partner**
 
@@ -10,34 +10,33 @@ HackForge AI is a full-stack web application that enables users to transform pla
 
 ## 🚀 Features
 
-- **Natural Language to Code**:Describe your project idea in plain English and receive a complete codebase
-- **Real-Time Collaboration**:Join "idea rooms" to brainstorm and build with others in real-time
-- **Modern UI/UX**:Sleek dashboard with dynamic project cards, trending ideas, and showcase sections
-- **Authentication**:Custom login and signup pages without third-party components, ensuring compatibility with preview features
-- **AI Integration**:Utilizes Groq AI for code generation
-- **Export Options**:Download generated code as a `.zip` file or push directly to GitHub
-- **Responsive Design**:Fully responsive layout with smooth animations and transitions
+- **Natural Language to Code**: Describe your project idea in plain English and receive a complete codebase.
+- **Real-Time Collaboration**: Join "idea rooms" to brainstorm and build with others in real-time.
+- **Modern UI/UX**: Sleek dashboard with dynamic project cards, trending ideas, and showcase sections.
+- **Authentication**: Custom login and signup pages without third-party components, ensuring compatibility with preview features.
+- **AI Integration**: Utilizes Groq AI for code generation.
+- **Export Options**: Download generated code as a `.zip` file or push directly to GitHub.
+- **Responsive Design**: Fully responsive layout with smooth animations and transitions.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer          | Technology                            |
-|----------------|---------------------------------------|
-| Frontend        Next.js (App Router), Tailwind CSS, shadcn/ui, Framer Motin |
-| Backend         Node.js with Express or FastAI               |
-| Database        MongoDB or PostgreSL                        |
-| Real-Time       Socket.IO or Aby                           |
-| Authentication  Custom implementation (no Clerk component) |
-| AI Integration  Groq I                                    |
+| Layer          | Technology                                      |
+|----------------|-------------------------------------------------|
+| Frontend       | Next.js (App Router), Tailwind CSS, shadcn/ui, Framer Motion |
+| Backend        | Node.js with Express or Fastify                 |
+| Database       | MongoDB or PostgreSQL                           |
+| Real-Time      | Socket.IO or Ably                               |
+| Authentication | Custom implementation (no Clerk components)    |
+| AI Integration | Groq AI                                         |
 
 ---
 
 ## 📁 Project Structure
 
-``
-
-hackforge-ai/
+```
+hackforge-ai/
 ├── frontend/
 │   ├── components/
 │   ├── pages/
@@ -51,16 +50,18 @@ HackForge AI is a full-stack web application that enables users to transform pla
 │   └── ...
 ├── .env
 ├── package.json
-└── READMEmd
+└── README.md
 ```
-
 
 ---
 
 ## ⚙️ Setup Instructions
 
 ### Prerequisites
-- Node.js (v14 or highr)- npm or yrn- MongoDB or PostgreSQL instace
+
+- Node.js (v14 or higher)
+- npm or yarn
+- MongoDB or PostgreSQL instance
 
 ### Installation
 
@@ -68,66 +69,61 @@ HackForge AI is a full-stack web application that enables users to transform pla
 
    ```bash
    git clone https://github.com/yourusername/hackforge-ai.git
-   cd hackforgeai
+   cd hackforge-ai
    ```
-
 
 2. **Set up environment variables**:
 
    Create a `.env` file in the root directory and add the following:
 
    ```env
-   GROQ_API_KEY=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
+   GROQ_API_KEY=your_groq_api_key
    DATABASE_URL=your_database_connection_string
    NEXTAUTH_SECRET=your_nextauth_secret
-   NEXTAUTH_URL=http://localhost:300
+   NEXTAUTH_URL=http://localhost:3000
    ```
-
 
 3. **Install dependencies**:
 
    ```bash
    npm install
    # or
-   yarn instll
+   yarn install
    ```
-
 
 4. **Run the development server**:
 
    ```bash
    npm run dev
    # or
-   yarn ev
+   yarn dev
    ```
-
 
    The application will be available at `http://localhost:3000`.
 
 ---
 
-## 🧪 Testig
+## 🧪 Testing
 
-To run tests, use the following commnd:
+To run tests, use the following command:
 
-```bsh
-npm run test
+```bash
+npm run test
 # or
-yarn est
+yarn test
 ```
-
 
 ---
 
-## 📦 Deploymnt
+## 📦 Deployment
 
-To deploy the application, consider using platforms like Vercel, Heroku, or Netlify. Ensure that all environment variables are correctly set in the deployment environent.
+To deploy the application, consider using platforms like Vercel, Heroku, or Netlify. Make sure all environment variables are properly set in the deployment environment.
 
 ---
 
-## 🤝 Contribuing
+## 🤝 Contributing
 
-Contributions are welcome! Please follow these teps:
+Contributions are welcome! Please follow these steps:
 
 1. **Fork the repository**.
 2. **Create a new branch**:
@@ -135,32 +131,30 @@ yarn est
    ```bash
    git checkout -b feature/your-feature-name
    ```
-
 
 3. **Commit your changes**:
 
    ```bash
    git commit -m "Add your message here"
    ```
-
 
 4. **Push to the branch**:
 
    ```bash
    git push origin feature/your-feature-name
    ```
-
 
 5. **Open a pull request**.
 
 ---
 
-## 📄 Liense
+## 📄 License
 
-This project is licensed under the [MIT License](LIENSE).
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 📧 Cntact
+## 📧 Contact
 
-For any inquiries or feedback, please contact [tharunraman10@gmail.com](mailto:tharunraman10@gmail.com).
+For any inquiries or feedback, please contact [tharunraman10@gmail.com](mailto:tharunraman10@gmail.com).
+
