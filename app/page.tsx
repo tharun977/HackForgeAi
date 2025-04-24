@@ -46,7 +46,7 @@ export default function Home() {
                   Start Building <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="https://github.com/hackforge-ai" target="_blank" rel="noopener noreferrer">
+              <Link href="https://github.com/hackforgeai" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="lg" className="gap-2">
                   <Github className="h-4 w-4" /> GitHub
                 </Button>
