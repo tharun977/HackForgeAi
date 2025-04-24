@@ -90,7 +90,7 @@ export default function Home() {
             <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/20 via-primary/10 to-background p-8 md:p-12">
               <div className="grid gap-6 md:grid-cols-2 md:gap-12">
                 <div>
-                  <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Ready to build your next big idea?</h2>
+                <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Ready to build your next big idea?</h2>
                   <p className="mt-4 text-muted-foreground">
                     Join thousands of developers who are building faster with HackForge AI.
                   </p>
