@@ -77,7 +77,7 @@ hackforge-ai/
    Create a `.env` file in the root directory and add the following:
 
    ```env
-   GROQ_API_KEY=your_groq_api_key
+   GROQ_CLOUD_API=your_groq_api_key
    DATABASE_URL=your_database_connection_string
    NEXTAUTH_SECRET=your_nextauth_secret
    NEXTAUTH_URL=http://localhost:3000
