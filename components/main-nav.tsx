@@ -1,65 +1,77 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-
-const navItems = [
-  { href: "/#features", label: "Features" },
-  { href: "/#how-it-works", label: "How It Works" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/docs", label: "Docs" },
-]
+import Link from 'next/link';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 export function MainNav() {
-  const pathname = usePathname()
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen((prev) => !prev);
+  const closeMenu = () => setIsOpen(false);
+
+  const navItems = [
+    { href: '/#features', label: 'Features' },
+    { href: '/#how-it-works', label: 'How It Works' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/docs', label: 'Documentation' },
+    { href: '/blog', label: 'Blog' },
+  ];
 
   return (
-    <div className="flex items-center">
-      <nav className="hidden md:flex items-center gap-6">
+    <nav className="relative z-50">
+      {/* Mobile menu toggle button */}
+      <div className="flex items-center md:hidden">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleMenu}
+          className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          <span className="sr-only">Toggle menu</span>
+        </Button>
+      </div>
+
+      {/* Desktop nav links */}
+      <ul className="hidden md:flex items-center space-x-6">
         {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "text-sm transition-colors hover:text-foreground",
-              pathname === item.href ? "text-foreground" : "text-muted-foreground",
-            )}
-          >
-            {item.label}
-          </Link>
+          <li key={item.label}>
+            <Link
+              href={item.href}
+              className="text-sm font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
+            >
+              {item.label}
+            </Link>
+          </li>
         ))}
-      </nav>
-      <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetTrigger asChild className="md:hidden">
-          <Button variant="ghost" size="icon" className="h-8 w-8 p-0">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="right" className="w-[240px] sm:w-[300px]">
-          <div className="flex flex-col gap-6 py-6">
-            {navItems.map((item) => (
+      </ul>
+
+      {/* Mobile nav dropdown */}
+      <div
+        className={cn(
+          "absolute left-0 right-0 top-14 mx-auto w-[95%] max-w-sm rounded-lg border border-primary/10 bg-background/90 backdrop-blur-xl shadow-xl transition-transform duration-300 ease-in-out md:hidden",
+          isOpen
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        )}
+      >
+        <ul className="flex flex-col divide-y divide-muted-foreground/10">
+          {navItems.map((item) => (
+            <li key={item.label}>
               <Link
-                key={item.href}
                 href={item.href}
-                className={cn(
-                  "text-sm transition-colors hover:text-foreground",
-                  pathname === item.href ? "text-foreground" : "text-muted-foreground",
-                )}
-                onClick={() => setIsOpen(false)}
+                onClick={closeMenu}
+                className="block px-6 py-4 text-sm font-medium text-foreground hover:bg-primary/10 transition-colors"
               >
                 {item.label}
               </Link>
-            ))}
-          </div>
-        </SheetContent>
-      </Sheet>
-    </div>
-  )
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  );
 }
