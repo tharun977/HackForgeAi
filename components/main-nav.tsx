@@ -13,6 +13,7 @@ export function MainNav() {
   const closeMenu = () => setIsOpen(false);
 
   const navItems = [
+    { href: '/#home', label: 'Home' },
     { href: '/#features', label: 'Features' },
     { href: '/#how-it-works', label: 'How It Works' },
     { href: '/pricing', label: 'Pricing' },
@@ -22,6 +23,7 @@ export function MainNav() {
 
   return (
     <nav className="relative z-50">
+
       {/* Mobile menu toggle button */}
       <div className="flex items-center md:hidden">
         <Button
