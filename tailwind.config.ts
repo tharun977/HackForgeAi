@@ -1,12 +1,15 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss"
 
-const config: Config = {
-  darkMode: ['class'],
+const config = {
+  darkMode: ["class"],
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "*.{js,ts,jsx,tsx,mdx}",
   ],
+  prefix: "",
   theme: {
     container: {
       center: true,
@@ -30,25 +33,17 @@ const config: Config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        success: {
-          DEFAULT: "hsl(var(--success))",
-          foreground: "hsl(var(--success-foreground))",
-        },
-        warning: {
-          DEFAULT: "hsl(var(--warning))",
-          foreground: "hsl(var(--warning-foreground))",
-        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -58,10 +53,6 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-      },
-      fontFamily: {
-        "cal-sans": ["var(--font-cal-sans)"],
-        "inter": ["var(--font-inter)"],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -85,37 +76,21 @@ const config: Config = {
           from: { opacity: "1" },
           to: { opacity: "0" },
         },
-        "slide-up": {
+        "slide-in": {
           from: { transform: "translateY(10px)", opacity: "0" },
           to: { transform: "translateY(0)", opacity: "1" },
-        },
-        "slide-down": {
-          from: { transform: "translateY(-10px)", opacity: "0" },
-          to: { transform: "translateY(0)", opacity: "1" },
-        },
-        "pulse-glow": {
-          "0%, 100%": { 
-            opacity: "1",
-            boxShadow: "0 0 10px rgba(0, 255, 157, 0.7), 0 0 20px rgba(0, 255, 157, 0.5)" 
-          },
-          "50%": { 
-            opacity: "0.7",
-            boxShadow: "0 0 10px rgba(0, 255, 157, 0.5), 0 0 15px rgba(0, 255, 157, 0.3)" 
-          },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.2s ease-out",
-        "fade-out": "fade-out 0.2s ease-in",
-        "slide-up": "slide-up 0.3s ease-out",
-        "slide-down": "slide-down 0.3s ease-out",
-        "pulse-glow": "pulse-glow 2s infinite",
+        "fade-in": "fade-in 0.3s ease-out",
+        "fade-out": "fade-out 0.3s ease-out",
+        "slide-in": "slide-in 0.3s ease-out",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-};
+} satisfies Config
 
-export default config;
+export default config
