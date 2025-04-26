@@ -159,5 +159,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📧 Contact
 
-For any inquiries or feedback, please contact [tharunraman10@gmail.com](mailto:tharunraman10@gmail.com).
+For any inquiriess or feedback, please contact [tharunraman10@gmail.com](mailto:tharunraman10@gmail.com).
 
