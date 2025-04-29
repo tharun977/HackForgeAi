@@ -4,7 +4,7 @@
 
 **Your AI-Powered Hackathon Partner**
 
-HackForge AI is a full-stack web application that enables users to transform plain English project ideas into fully scaffolded, production-ready codebases. It features real-time collaboration, modern UI/UX design, and seamless integration with AI code generation services.
+HackForge AI is a full-stack web application that enables users to transform plain English project ideas into fully scaffolded, production-ready codebases. It features real-time collaboration, modern UI/UX design, and seamless integration with AI code generation servicess.
 
 ![HackForge AI Banner](./public/images/hackforgeai-banner.png)
 
