@@ -1,5 +1,3 @@
-
-
 # ⚒️ HackForge AI
 
 **Your AI-Powered Hackathon Partner**
