@@ -69,8 +69,8 @@ hackforge-ai/
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/hackforge-ai.git
-   cd hackforge-ai
+   git clone https://github.com/yourusername/hackforgeai.git
+   cd hackforgeai
    ```
 
 2. **Set up environment variables**:
