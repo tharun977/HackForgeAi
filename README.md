@@ -37,7 +37,7 @@ HackForge AI is a full-stack web application that enables users to transform pla
 ## 📁 Project Structure
 
 ```
-hackforge-ai/
+hackforgeai/
 ├── frontend/
 │   ├── components/
 │   ├── pages/
